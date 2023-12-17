@@ -74,7 +74,7 @@ def get_button_gaisss(window  ):
     #                    hover_color=color,
     #                     image=CTkImage(light_image=img)
     #                    )
-    img = CTkImage(dark_image=Image.open("K:/tst/gaisss.png"),size=(500,90))
+    img = CTkImage(dark_image=Image.open("K:/tst/Attendance_TKinter/gaisss.png"),size=(500,90))
     Gbutton = CTkButton(window,image= img,text = " ",fg_color='transparent',hover_color='black')
     return Gbutton
 

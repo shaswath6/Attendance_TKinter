@@ -59,7 +59,7 @@ class App:
 
         label = test(
             image=self.most_recent_capture_arr,
-            model_dir='K:/tst/face attendance/spoof/resources/anti_spoof_models',
+            model_dir='K:/tst/Attendance_TKinter/face attendance/spoof/resources/anti_spoof_models',
             device_id=0
         )
 
@@ -79,7 +79,7 @@ class App:
                 # pqr.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
                 b =str(format(name))
                 print(b)
-                fp = open('K:/tst/face attendance/'+b+'.pickle', 'rb')
+                fp = open('K:/tst/Attendance_TKinter/face attendance/'+b+'.pickle', 'rb')
                 try:
                     while True:
                         a = pickle.load(fp)
@@ -110,10 +110,71 @@ class App:
                     f.write('{}'.format(name)+z+'***   {}   ***        in         ***        '.format( datetime.datetime.now())+c+'\n')
 
                     f.close()
-                    up = open(currentdate + '.csv', 'a', newline='')
+                    up = open(currentdate+ '.csv', 'a', newline='')
                     obj = csv.writer(up)
                     obj.writerow([name,datetime.datetime.now(),'in',c])
                     up.close()
+
+        else:
+            # pqr.msg_box('Hey, you are a spoofer!', 'You are fake !')
+            self.msg_window = tk.Toplevel(self.main_window)
+            self.msg_window.geometry('400x200')
+            self.text_msg = pqr.get_text_label2(self.msg_window, 'Hey, you are a spoofer!\n You are fake !'
+                                                )
+            self.text_msg.place(x=50, y=50)
+            self.close_button = pqr.get_button2(self.msg_window, 'CLOSE',
+                                                'red', self.close_user_msg)
+            self.close_button.place(relx=0.5, rely=0.80, anchor='center')
+    def logout(self):
+
+        label = test(
+            image=self.most_recent_capture_arr,
+            model_dir='K:/tst/Attendance_TKinter/face attendance/spoof/resources/anti_spoof_models',
+            device_id=0
+        )
+
+        if label == 1:
+
+            name = pqr.recognize(self.most_recent_capture_arr, self.db_dir)
+
+            if name in ['unknown_person', 'no_persons_found']:
+                pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
+            else:
+                self.logout_window = tk.Toplevel(self.main_window)
+                self.logout_window.geometry('1200x530+350+100')
+                self.img_ = pqr.get_img_label(self.logout_window)
+                self.img_.place(x=10, y=0, width=700, height=500)
+                self.add_img_to_label(self.img_)
+                # pqr.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
+                p = str(format(name))
+                gp = open('K:/tst/Attendance_TKinter/face attendance/' + p + '.pickle', 'rb')
+                try:
+                    while True:
+                        r = pickle.load(gp)
+                        q = r[1]
+
+                except:
+                    gp.close()
+                # pqr.msg_box('Admission id ! ', 'your id is' + q)
+                self.text_logout = pqr.get_text_label2(self.logout_window,
+                                                      'Thank you!!! \n' + p)
+                self.text_logout.place(x=750, y=100)
+                self.text_logout = pqr.get_text_label2(self.logout_window,
+                                                      'Your id is, \n' + q)
+                self.text_logout.place(x=750, y=200)
+                self.close_button = pqr.get_button2(self.logout_window, 'CLOSE',
+                                                    'red', self.close_user_logout)
+                self.close_button.place(x=850, y=400)
+                with open(self.log_path, 'a') as f:
+                    z = ''
+                    for i in range(15 - len(name)):
+                        z += ' '
+                    f.write('{}'.format(name)+z+'***   {}   ***        out        ***        '.format( datetime.datetime.now())+q+'\n')
+                    f.close()
+                    jp = open(currentdate + '.csv', 'a', newline='')
+                    obj = csv.writer(jp)
+                    obj.writerow([name, datetime.datetime.now(), 'out',q])
+                    jp.close()
 
         else:
             # pqr.msg_box('Hey, you are a spoofer!', 'You are fake !')
@@ -130,7 +191,7 @@ class App:
     def log(self):
         self.log_window = tk.Toplevel(self.main_window)
         self.log_window.geometry('1920x1080')
-        mp = open('K:/tst/face attendance/log.txt', 'r')
+        mp = open('K:/tst/Attendance_TKinter/face attendance/log.txt', 'r')
         data = mp.read()
         self.text_log = pqr.frame_(self.log_window,
                                               data)
@@ -229,67 +290,7 @@ class App:
         self.register_new_user_capture = self.most_recent_capture_arr.copy()
 
 
-    def logout(self):
 
-        label = test(
-            image=self.most_recent_capture_arr,
-            model_dir='K:/tst/face attendance/spoof/resources/anti_spoof_models',
-            device_id=0
-        )
-
-        if label == 1:
-
-            name = pqr.recognize(self.most_recent_capture_arr, self.db_dir)
-
-            if name in ['unknown_person', 'no_persons_found']:
-                pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
-            else:
-                self.logout_window = tk.Toplevel(self.main_window)
-                self.logout_window.geometry('1200x530+350+100')
-                self.img_ = pqr.get_img_label(self.logout_window)
-                self.img_.place(x=10, y=0, width=700, height=500)
-                self.add_img_to_label(self.img_)
-                # pqr.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
-                p = str(format(name))
-                gp = open('K:/tst/face attendance/' + p + '.pickle', 'rb')
-                try:
-                    while True:
-                        r = pickle.load(gp)
-                        q = r[1]
-
-                except:
-                    gp.close()
-                # pqr.msg_box('Admission id ! ', 'your id is' + q)
-                self.text_logout = pqr.get_text_label2(self.logout_window,
-                                                      'Thank you!!! \n' + p)
-                self.text_logout.place(x=750, y=100)
-                self.text_logout = pqr.get_text_label2(self.logout_window,
-                                                      'Your id is, \n' + q)
-                self.text_logout.place(x=750, y=200)
-                self.close_button = pqr.get_button2(self.logout_window, 'CLOSE',
-                                                    'red', self.close_user_logout)
-                self.close_button.place(x=850, y=400)
-                with open(self.log_path, 'a') as f:
-                    z = ''
-                    for i in range(15 - len(name)):
-                        z += ' '
-                    f.write('{}'.format(name)+z+'***   {}   ***        out        ***        '.format( datetime.datetime.now())+q+'\n')
-                    f.close()
-                    jp = open(currentdate + '.csv', 'a', newline='')
-                    obj = csv.writer(jp)
-                    obj.writerow([name, datetime.datetime.now(), 'out',q])
-                    jp.close()
-
-        else:
-            # pqr.msg_box('Hey, you are a spoofer!', 'You are fake !')
-            self.msg_window = tk.Toplevel(self.main_window)
-            self.msg_window.geometry('400x200')
-            self.text_msg = pqr.get_text_label2(self.msg_window, 'Hey, you are a spoofer!\n You are fake !'
-                                                )
-            self.text_msg.place(x=50, y=50)
-            self.close_button = pqr.get_button2(self.msg_window, 'CLOSE',
-                                                'red', self.close_user_msg)
-            self.close_button.place(relx=0.5, rely=0.80, anchor='center')
 
     # def msg_box(self):
     #     self.msg_window = tk.Toplevel(self.main_window)
