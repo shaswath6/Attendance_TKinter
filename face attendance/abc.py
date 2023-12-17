@@ -23,9 +23,11 @@ ap.close()
 class App:
     def __init__(self):
         self.main_window = CTk()
+        
         self.main_window.title('ATTENDANCE')
         self.main_window.geometry("1200x520+350+100")
         set_appearance_mode('dark')
+
 
         self.button_main_window_gaisss = pqr.get_button_gaisss(self.main_window)
         self.button_main_window_gaisss.place(relx=0.78, rely=0.15, anchor='center')
@@ -68,14 +70,25 @@ class App:
             name = pqr.recognize(self.most_recent_capture_arr, self.db_dir)
 
             if name in ['unknown_person', 'no_persons_found']:
-                pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
+                # pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
+                self.msg_window = CTkToplevel(self.main_window)
+                self.msg_window.geometry('400x300+600+300')
+                set_appearance_mode('dark')
+                self.msg_window.wm_attributes('-topmost', True)
+                self.text_msg = pqr.get_text_label2(self.msg_window,
+                                                    'Ups... Unknown user.\nPlease register new user\n\tor\nTry again.'
+                                                    )
+                self.text_msg.place(x=50, y=50)
+                self.close_button = pqr.get_button2(self.msg_window, 'CLOSE',
+                                                    'red', self.close_user_msg)
+                self.close_button.place(relx=0.5, rely=0.80, anchor='center')
             else:
                 self.login_window = CTkToplevel(self.main_window)
                 self.login_window.geometry('1200x530+350+100')
                 set_appearance_mode('dark')
                 self.login_window.wm_attributes('-topmost', True)
                 self.img_ = pqr.get_img_label(self.login_window)
-                self.img_.place(x=10,y=0,width=700,height=500)
+                self.img_.place(x=10,y=0,width=640,height=480)
                 self.add_img_to_label(self.img_)
 
                 # pqr.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
@@ -142,14 +155,25 @@ class App:
             name = pqr.recognize(self.most_recent_capture_arr, self.db_dir)
 
             if name in ['unknown_person', 'no_persons_found']:
-                pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
+                # pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
+                self.msg_window = CTkToplevel(self.main_window)
+                self.msg_window.geometry('400x300+600+300')
+                set_appearance_mode('dark')
+                self.msg_window.wm_attributes('-topmost', True)
+                self.text_msg = pqr.get_text_label2(self.msg_window,
+                                                    'Ups... Unknown user.\nPlease register new user\n\tor\nTry again.'
+                                                    )
+                self.text_msg.place(x=50, y=50)
+                self.close_button = pqr.get_button2(self.msg_window, 'CLOSE',
+                                                    'red', self.close_user_msg)
+                self.close_button.place(relx=0.5, rely=0.80, anchor='center')
             else:
                 self.logout_window = CTkToplevel(self.main_window)
                 self.logout_window.geometry('1200x530+350+100')
                 set_appearance_mode('dark')
                 self.logout_window.wm_attributes('-topmost', True)
                 self.img_ = pqr.get_img_label(self.logout_window)
-                self.img_.place(x=10, y=0, width=700, height=500)
+                self.img_.place(x=10, y=0, width=640, height=480)
                 self.add_img_to_label(self.img_)
                 # pqr.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
                 p = str(format(name))
