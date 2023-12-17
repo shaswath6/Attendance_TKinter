@@ -28,10 +28,10 @@ def get_button2(window, text, color, command, ):
     button = CTkButton(window,
                        text=text,
                        corner_radius=90,
-                       border_color='black',
+                       border_color='orange',
                        border_width=2,
                        height=50,
-                       text_color='black',
+                       text_color='white',
 
 
 
@@ -44,9 +44,9 @@ def get_button2(window, text, color, command, ):
 
     return button
 def frame_(window,text):
-    frame = CTkScrollableFrame(window,fg_color='white',border_color='black',border_width=2,orientation='vertical',scrollbar_button_color='grey',height=800,width=1200)
+    frame = CTkScrollableFrame(window,fg_color='black',border_color='white',border_width=2,orientation='vertical',scrollbar_button_color='grey',height=800,width=1200)
     frame.pack(expand=True)
-    label = CTkLabel(frame, text=text, font=("Times", 32), text_color='black', justify="left")
+    label = CTkLabel(frame, text=text, font=("Times", 32), text_color='white', justify="left")
     a = label.pack(anchor='s',expand = True,pady=1,padx=1)
     return a
 
@@ -85,7 +85,7 @@ def get_text_label(window, text):
 
     return label
 def get_text_label2(window, text):
-    label = CTkLabel(window, text=text,font=("Times", 32), text_color='black', justify="left")
+    label = CTkLabel(window, text=text,font=("Times", 32), text_color='white', justify="left")
 
     return label
 

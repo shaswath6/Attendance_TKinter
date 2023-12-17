@@ -70,8 +70,10 @@ class App:
             if name in ['unknown_person', 'no_persons_found']:
                 pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
             else:
-                self.login_window = tk.Toplevel(self.main_window)
+                self.login_window = CTkToplevel(self.main_window)
                 self.login_window.geometry('1200x530+350+100')
+                set_appearance_mode('dark')
+                self.login_window.wm_attributes('-topmost', True)
                 self.img_ = pqr.get_img_label(self.login_window)
                 self.img_.place(x=10,y=0,width=700,height=500)
                 self.add_img_to_label(self.img_)
@@ -117,9 +119,11 @@ class App:
 
         else:
             # pqr.msg_box('Hey, you are a spoofer!', 'You are fake !')
-            self.msg_window = tk.Toplevel(self.main_window)
-            self.msg_window.geometry('400x200')
-            self.text_msg = pqr.get_text_label2(self.msg_window, 'Hey, you are a spoofer!\n You are fake !'
+            self.msg_window = CTkToplevel(self.main_window)
+            self.msg_window.geometry('400x250+600+300')
+            set_appearance_mode('dark')
+            self.msg_window.wm_attributes('-topmost', True)
+            self.text_msg = pqr.get_text_label2(self.msg_window, '      No user Found\n               or\n   You are spoofing !'
                                                 )
             self.text_msg.place(x=50, y=50)
             self.close_button = pqr.get_button2(self.msg_window, 'CLOSE',
@@ -140,8 +144,10 @@ class App:
             if name in ['unknown_person', 'no_persons_found']:
                 pqr.msg_box('Ups...', 'Unknown user. Please register new user or try again.')
             else:
-                self.logout_window = tk.Toplevel(self.main_window)
+                self.logout_window = CTkToplevel(self.main_window)
                 self.logout_window.geometry('1200x530+350+100')
+                set_appearance_mode('dark')
+                self.logout_window.wm_attributes('-topmost', True)
                 self.img_ = pqr.get_img_label(self.logout_window)
                 self.img_.place(x=10, y=0, width=700, height=500)
                 self.add_img_to_label(self.img_)
@@ -178,9 +184,11 @@ class App:
 
         else:
             # pqr.msg_box('Hey, you are a spoofer!', 'You are fake !')
-            self.msg_window = tk.Toplevel(self.main_window)
-            self.msg_window.geometry('400x200')
-            self.text_msg = pqr.get_text_label2(self.msg_window, 'Hey, you are a spoofer!\n You are fake !'
+            self.msg_window = CTkToplevel(self.main_window)
+            self.msg_window.geometry('400x250+600+300')
+            set_appearance_mode('dark')
+            self.msg_window.wm_attributes('-topmost', True)
+            self.text_msg = pqr.get_text_label2(self.msg_window, '      No user Found\n               or\n   You are spoofing !'
                                                 )
             self.text_msg.place(x=50, y=50)
             self.close_button = pqr.get_button2(self.msg_window, 'CLOSE',
@@ -189,8 +197,10 @@ class App:
 
 
     def log(self):
-        self.log_window = tk.Toplevel(self.main_window)
-        self.log_window.geometry('1920x1080')
+        self.log_window = CTkToplevel(self.main_window)
+        self.log_window.geometry('1920x1080+0+0')
+        set_appearance_mode('dark')
+        self.log_window.wm_attributes('-topmost', True)
         mp = open('K:/tst/Attendance_TKinter/face attendance/log.txt', 'r')
         data = mp.read()
         self.text_log = pqr.frame_(self.log_window,
@@ -220,6 +230,7 @@ class App:
         self.register_new_user_window.geometry("1200x720+370+120")
         self.main_window.title('ATTENDANCE')
         set_appearance_mode('dark')
+        self.register_new_user_window.wm_attributes('-topmost',True)
 
         self.accept_button_register_new_user_window = pqr.get_button(self.register_new_user_window, 'Accept', 'green',
                                                                       self.accept_register_new_user)
