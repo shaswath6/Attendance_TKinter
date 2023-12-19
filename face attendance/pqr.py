@@ -6,13 +6,15 @@ from tkinter import messagebox
 import face_recognition
 from PIL import Image
 
-def get_button(window, text, color, command, ):
+def get_button(window, text, color, command,img1 ):
     button = CTkButton(window,
                        text=text,
                        corner_radius=90,
                        border_color='white',
                        border_width=2,
                        height=50,
+                       image=CTkImage(light_image=Image.open(img1)),
+
 
 
 
@@ -28,13 +30,11 @@ def get_button2(window, text, color, command, ):
     button = CTkButton(window,
                        text=text,
                        corner_radius=90,
-                       border_color='orange',
+                       border_color='deep sky blue',
                        border_width=2,
                        height=50,
                        text_color='white',
-
-
-
+                       image=CTkImage(light_image=Image.open('K:/tst/Attendance_TKinter/close.png')),
                        command=command,
 
                        fg_color='transparent',
@@ -49,6 +49,27 @@ def frame_(window,text):
     label = CTkLabel(frame, text=text, font=("Times", 32), text_color='white', justify="left")
     a = label.pack(anchor='s',expand = True,pady=1,padx=1)
     return a
+
+def frame_1(window):
+    frame = CTkFrame(window,width=100)
+
+    frame.pack(expand=True)
+    label = tk.Listbox(frame,width=50,height=50)
+    label.grid(column=0,
+               row=0,
+               sticky = 'nswe'
+               )
+    def additems():
+        for file in os.listdir(db):
+            if file.endswith('.pickle'):
+                label.insert('anchor',file)
+    additems()
+
+
+
+
+
+
 
 
 
@@ -74,8 +95,8 @@ def get_button_gaisss(window  ):
     #                    hover_color=color,
     #                     image=CTkImage(light_image=img)
     #                    )
-    img = CTkImage(dark_image=Image.open("K:/tst/Attendance_TKinter/gaisss.png"),size=(500,90))
-    Gbutton = CTkButton(window,image= img,text = " ",fg_color='transparent',hover_color='black')
+    img = CTkImage(dark_image=Image.open("K:/tst/Attendance_TKinter/gaisss.png"), size=(500, 90))
+    Gbutton = CTkButton(window,image= img,text = " ",fg_color='black',hover_color='black')
     return Gbutton
 
 

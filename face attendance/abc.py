@@ -1,10 +1,8 @@
-import os
 import os.path
 import datetime
 import pickle
 import csv
 from customtkinter import *
-import tkinter as tk
 import cv2
 from PIL import Image, ImageTk
 import face_recognition
@@ -23,28 +21,30 @@ ap.close()
 class App:
     def __init__(self):
         self.main_window = CTk()
-        
+
         self.main_window.title('ATTENDANCE')
         self.main_window.geometry("1200x520+350+100")
         set_appearance_mode('dark')
 
 
+
         self.button_main_window_gaisss = pqr.get_button_gaisss(self.main_window)
         self.button_main_window_gaisss.place(relx=0.78, rely=0.15, anchor='center')
 
-        self.login_button_main_window = pqr.get_button(self.main_window, 'login', 'green', self.login)
+        self.login_button_main_window = pqr.get_button(self.main_window, 'login', 'green', self.login,'K:/tst/Attendance_TKinter/login.png')
         self.login_button_main_window.place(relx=0.8, rely=0.45,anchor='center')
 
 
-        self.logout_button_main_window = pqr.get_button(self.main_window, 'logout', 'red', self.logout)
+        self.logout_button_main_window = pqr.get_button(self.main_window, 'logout', 'red', self.logout,'K:/tst/Attendance_TKinter/logout.png')
         self.logout_button_main_window.place(relx=0.8, rely=0.6,anchor='center')
 
         self.register_new_user_button_main_window = pqr.get_button(self.main_window, 'register new user', 'blue',
-                                                                    self.register_new_user)
+                                                                    self.register_new_user,'K:/tst/Attendance_TKinter/new.png')
         self.register_new_user_button_main_window.place(relx=0.8, rely=0.75,anchor='center')
 
-        self.log_button_main_window = pqr.get_button(self.main_window, 'Show log', 'yellow', self.log)
+        self.log_button_main_window = pqr.get_button(self.main_window, 'Show log', 'DarkOrchid1', self.log,'K:/tst/Attendance_TKinter/log.png')
         self.log_button_main_window.place(relx=0.8, rely=0.9, anchor='center')
+
 
         self.webcam_label = pqr.get_img_label(self.main_window)
         self.webcam_label.place(x=10, y=0, width=640, height=480)
@@ -94,11 +94,16 @@ class App:
                 # pqr.msg_box('Welcome back !', 'Welcome, {}.'.format(name))
                 b =str(format(name))
                 print(b)
-                fp = open('K:/tst/Attendance_TKinter/face attendance/'+b+'.pickle', 'rb')
+                fp = open('K:/tst/Attendance_TKinter/face attendance/'+b+'.pickle', 'ab+')
                 try:
+                    fp.seek(0,0)
                     while True:
+                        q = fp.tell()
                         a = pickle.load(fp)
                         c = a[1]
+                        a[2]='in'
+                        fp.seek(q)
+                        pickle.dump(a,fp)
 
                 except:
                     fp.close()
@@ -110,7 +115,7 @@ class App:
                                                       'Your id is, \n' + c)
                 self.text_login.place(x=750, y=200)
 
-                self.close_button =pqr.get_button2(self.login_window, 'CLOSE',
+                self.close_button = pqr.get_button2(self.login_window, 'CLOSE',
                                                                          'red', self.close_user_login)
                 self.close_button.place(x=850,y=400)
 
@@ -168,43 +173,72 @@ class App:
                                                     'red', self.close_user_msg)
                 self.close_button.place(relx=0.5, rely=0.80, anchor='center')
             else:
-                self.logout_window = CTkToplevel(self.main_window)
-                self.logout_window.geometry('1200x530+350+100')
-                set_appearance_mode('dark')
-                self.logout_window.wm_attributes('-topmost', True)
-                self.img_ = pqr.get_img_label(self.logout_window)
-                self.img_.place(x=10, y=0, width=640, height=480)
-                self.add_img_to_label(self.img_)
-                # pqr.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
-                p = str(format(name))
-                gp = open('K:/tst/Attendance_TKinter/face attendance/' + p + '.pickle', 'rb')
-                try:
-                    while True:
-                        r = pickle.load(gp)
-                        q = r[1]
+                l = True
+                while l:
 
-                except:
-                    gp.close()
-                # pqr.msg_box('Admission id ! ', 'your id is' + q)
-                self.text_logout = pqr.get_text_label2(self.logout_window,
-                                                      'Thank you!!! \n' + p)
-                self.text_logout.place(x=750, y=100)
-                self.text_logout = pqr.get_text_label2(self.logout_window,
-                                                      'Your id is, \n' + q)
-                self.text_logout.place(x=750, y=200)
-                self.close_button = pqr.get_button2(self.logout_window, 'CLOSE',
-                                                    'red', self.close_user_logout)
-                self.close_button.place(x=850, y=400)
-                with open(self.log_path, 'a') as f:
-                    z = ''
-                    for i in range(15 - len(name)):
-                        z += ' '
-                    f.write('{}'.format(name)+z+'***   {}   ***        out        ***        '.format( datetime.datetime.now())+q+'\n')
-                    f.close()
-                    jp = open(currentdate + '.csv', 'a', newline='')
-                    obj = csv.writer(jp)
-                    obj.writerow([name, datetime.datetime.now(), 'out',q])
-                    jp.close()
+
+                    p = str(format(name))
+                    gp = open('K:/tst/Attendance_TKinter/face attendance/' + p + '.pickle', 'ab+')
+                    gp.seek(0, 0)
+                    print('hello')
+                    try:
+                        a = pickle.load(gp)
+                        print('yes')
+                        print(a[1])
+                        print(a[2])
+                        if a[2] != 'in' :
+                            print('hi')
+                            pqr.msg_box('Attention !', 'please login before logging out')
+                            l = False
+                        else:
+                            self.logout_window = CTkToplevel(self.main_window)
+                            self.logout_window.geometry('1200x530+350+100')
+                            set_appearance_mode('dark')
+                            self.logout_window.wm_attributes('-topmost', True)
+                            self.img_ = pqr.get_img_label(self.logout_window)
+                            self.img_.place(x=10, y=0, width=640, height=480)
+                            self.add_img_to_label(self.img_)
+                            # pqr.msg_box('Hasta la vista !', 'Goodbye, {}.'.format(name))
+                            p = str(format(name))
+
+                            try:
+                                gp = open('K:/tst/Attendance_TKinter/face attendance/' + p + '.pickle', 'ab+')
+                                gp.seek(0, 0)
+                                while True:
+                                    r = pickle.load(gp)
+
+                                    q = r[1]
+
+
+
+                            except:
+                                gp.close()
+                            # pqr.msg_box('Admission id ! ', 'your id is' + q)
+                            self.text_logout = pqr.get_text_label2(self.logout_window,
+                                                                   'Thank you!!! \n' + p)
+                            self.text_logout.place(x=750, y=100)
+                            self.text_logout = pqr.get_text_label2(self.logout_window,
+                                                                   'Your id is, \n' + q)
+                            self.text_logout.place(x=750, y=200)
+                            self.close_button = pqr.get_button2(self.logout_window, 'CLOSE',
+                                                                'red', self.close_user_logout)
+                            self.close_button.place(x=850, y=400)
+                            with open(self.log_path, 'a') as f:
+                                z = ''
+                                for i in range(15 - len(name)):
+                                    z += ' '
+                                f.write('{}'.format(name) + z + '***   {}   ***        out        ***        '.format(
+                                    datetime.datetime.now()) + q + '\n')
+                                f.close()
+                                jp = open(currentdate + '.csv', 'a', newline='')
+                                obj = csv.writer(jp)
+                                obj.writerow([name, datetime.datetime.now(), 'out', q])
+                                jp.close()
+                    except:
+                        pass
+
+
+
 
         else:
             # pqr.msg_box('Hey, you are a spoofer!', 'You are fake !')
@@ -228,7 +262,7 @@ class App:
         mp = open('K:/tst/Attendance_TKinter/face attendance/log.txt', 'r')
         data = mp.read()
         self.text_log = pqr.frame_(self.log_window,
-                                              data)
+                                   data)
         self.text_log = pqr.get_text_label2(self.log_window,
                                               'NAME                                  Date-Time                           Status                    Reg.No')
         self.text_log.place(x=420, y=50)
@@ -236,6 +270,7 @@ class App:
         self.close_button = pqr.get_button2(self.log_window, 'CLOSE',
                                             'red', self.close_user_log)
         self.close_button.place(relx=0.5, rely=0.94, anchor='center')
+
 
     def start(self):
         self.main_window.mainloop()
@@ -257,11 +292,11 @@ class App:
         self.register_new_user_window.wm_attributes('-topmost',True)
 
         self.accept_button_register_new_user_window = pqr.get_button(self.register_new_user_window, 'Accept', 'green',
-                                                                      self.accept_register_new_user)
+                                                                     self.accept_register_new_user,'K:/tst/Attendance_TKinter/tick.png')
         self.accept_button_register_new_user_window.place(relx=0.25, rely=0.82,anchor = 'center')
 
         self.try_again_button_register_new_user_window = pqr.get_button(self.register_new_user_window, 'Try again',
-                                                                         'red', self.try_again_register_new_user)
+                                                                         'red', self.try_again_register_new_user,'K:/tst/Attendance_TKinter/try.png')
         self.try_again_button_register_new_user_window.place(relx=0.750, rely=0.82,anchor = 'center')
 
         self.capture_label = pqr.get_img_label(self.register_new_user_window)
@@ -312,11 +347,12 @@ class App:
         file = open(os.path.join(self.db_dir, '{}.pickle'.format(name)), 'wb')
         pickle.dump(embeddings, file)
         cp = open(str(name)+'.pickle','wb')
-        pickle.dump([name,no],cp)
+        pickle.dump([name,no,'random'],cp)
+        self.register_new_user_window.destroy()
 
         pqr.msg_box('Success!', 'User was registered successfully !')
 
-        self.register_new_user_window.destroy()
+
     def add_img_to_label(self, label):
         imgtk = ImageTk.PhotoImage(image=self.most_recent_capture_pil)
         label.imgtk = imgtk
